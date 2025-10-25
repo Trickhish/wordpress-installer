@@ -133,7 +133,7 @@ def formatName(name):
     name = name.replace(" ", "_")
 
     name = unicodedata.normalize('NFD', name)
-    name = ''.join(c for c in name if unicodedata.category(c) != 'Mn')
+    name = ''.join(c for c in name if unicodedata.category(c) != 'Mn' and not c in '.\/{[]}`"!@#$%^&*+=,<>?~')
 
     return(name)
 
@@ -660,6 +660,7 @@ if __name__=="__main__":
 
             print(f"Creating objects for projet '{name}'")
 
+            #print(f"Creating Database 'wp_inst_{db_name}'")
             db_pass = createDb(dbn, f"wp_inst_{name}")
 
     print(f"\n\n🌐 Wordpress Setup\n")
@@ -677,6 +678,7 @@ if __name__=="__main__":
 
         if not os.path.exists(aipath):
             os.makedirs(aipath, exist_ok=True)
+            print(f"Created directory")
         else:
             ctn = os.listdir(aipath)
             wnb = len([1 for f in ["wp-admin","wp-content","wp-includes","wp-login.php","wp-load.php","wp-config.php","wp-settings.php"] if f in ctn])
@@ -722,6 +724,7 @@ if __name__=="__main__":
                     exit()
                 else:
                     break
+            break
     
     
     print(f"\nInstalling WP in {aipath}")
